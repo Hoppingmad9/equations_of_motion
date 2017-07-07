@@ -1,0 +1,150 @@
+<html>
+<div style="width:auto;height:300;">
+<h1 style="position:relative;text-align:center;">Equations of  motion</h1>
+<div style="text-align:center;position:relative;left:-80px;line-height:21px;">Displacement: </div>
+<div style="text-align:center;position:relative;left:80px;top:-21px;"><input type="text" id="s"></div>
+<div style="text-align:center;position:relative;left:-80px;line-height:21px;">Initial  Velocity: </div>
+<div style="text-align:center;position:relative;left:80px;top:-21px;"><input type="text" id="u"></div>
+<div style="text-align:center;position:relative;left:-80px;line-height:21px;">Final Velocity: </div>
+<div style="text-align:center;position:relative;left:80px;top:-21px;"><input type="text" id="v"></div>
+<div style="text-align:center;position:relative;left:-80px;line-height:21px;">Acceleration: </div>
+<div style="text-align:center;position:relative;left:80px;top:-21px;"><input type="text" id="a"></div>
+<div style="text-align:center;position:relative;left:-80px;line-height:21px;">Time: </div>
+<div style="text-align:center;position:relative;left:80px;top:-21px;"><input type="text" id="t"></div>
+<div style="text-align:center;position:relative;"><button type="button" id="calculate">Calculate</button></div>
+<div style="text-align:center;position:relative;top:20"><button type="button" id="reset">Reset</button></div>
+<div id="error" style="color:red;position:relative;text-align:center;top:40"></div>
+</div>
+<script>
+
+window.onload = function()
+{
+	document.getElementById("calculate").addEventListener("click",runCalculation);
+	document.getElementById("reset").addEventListener("click",reset);
+}
+
+function reset()
+{
+	document.getElementById("s").value = "";
+	document.getElementById("u").value = "";
+	document.getElementById("v").value = "";
+	document.getElementById("a").value = "";
+	document.getElementById("t").value = "";
+}
+
+function runCalculation()
+{
+
+//console.log("hello world");
+
+var s = document.getElementById("s").value;
+var u = document.getElementById("u").value;
+var v = document.getElementById("v").value;
+var a = document.getElementById("a").value;
+var t = document.getElementById("t").value;
+
+if (!(Number(Boolean(s))+Number(Boolean(u))+Number(Boolean(v))+Number(Boolean(a))+Number(Boolean(t)) > 2))
+{
+	document.getElementById("error").innerHTML = "Fill in at least 3 values.";
+	return 0;
+}
+document.getElementById("error").innerHTML = "";
+
+var s = ((s == "") ? null : Number(s));
+var u = ((u == "") ? null : Number(u));
+var v = ((v == "") ? null : Number(v));
+var a = ((a == "") ? null : Number(a));
+var t = ((t == "") ? null : Number(t));
+
+//console.log(s);
+//console.log(u);
+//console.log(v);
+//console.log(a);
+//console.log(t);
+	
+if (s === null)
+{
+	if (u === null)
+	{
+		u = v - a*t;
+	}
+	if (v === null)
+	{
+		v = u + a*t;
+	}
+	if (a === null)
+	{
+		a = (v - u)/t;
+	}
+	if (t === null)
+	{
+		t = (v - u)/a;
+	}
+	s = 0.5*(u + v)*t;
+}
+if (a === null)
+{
+	if (u === null)
+	{
+		u = 2*s/t - v;
+	}
+	if(v === null)
+	{
+		v = 2*s/t - u;
+	}
+	if (t === null)
+	{
+		t = 2*s/(u + v);
+	}
+	a = (v - u)/t;
+}
+if (u !== null)
+{
+	if (v === null)
+	{
+		v = Math.sqrt(u*u + 2*a*s);
+	}
+	if (t === null)
+	{
+		t = (v - u)/a;
+	}
+}
+if (v !== null)
+{
+	if (u === null)
+	{
+		u = Math.sqrt(v*v - 2*a*s);
+	}
+	if (t === null)
+	{
+		t = (v - u)/a;
+	}
+}
+if (t !== null)
+{
+	if (u === null)
+	{
+		u = (s - 0.5*a*t*t)/t;
+	}
+	if (v === null)
+	{
+		v = (s + 0.5*a*t*t)/t;
+	}
+}
+document.getElementById("s").value = s;
+document.getElementById("u").value = u;
+document.getElementById("v").value = v;
+document.getElementById("a").value = a;
+document.getElementById("t").value = t;
+
+//v = u + at
+//s = ut + 0.5at^2
+//s = vt - 0.5at^2
+//s = 0.5(u + v)t
+//v^2 = u^2 + 2as
+
+}
+
+</script>
+
+</html>
